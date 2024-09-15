@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+
+model MsUser {
+  UserID        String      @id @default(uuid())
+  Password      String
+  Email         String      @unique
+  NamaDepan     String
+  NamaBelakang  String
+  NoHP          String
+  bAktif        Boolean
+  Akun          Account[]
+  Session       Session[]
+  DibuatOleh    String
+  WaktuDibuat   DateTime    @default(now())
+  DiubahOleh    String
+  WaktuDiubah   DateTime    @updatedAt()
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String  @map("user_id")
+  provider          String
+  providerAccountId String
+  MsUser            MsUser  @relation(fields: [userId], references: [UserID])
+
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String   @map("user_id")
+  MsUser       MsUser   @relation(fields: [userId], references: [UserID])
+  expires      DateTime
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  id       String @id @default(uuid())
+  token    String @unique
+  identifier String
+  expires  DateTime
+
+  @@map("verification_tokens")
+}
+
+model MsTech {
+  Id            Int         @id @default(autoincrement())
+  Kategori      Kategori
+  Nama          String
+  Component     String?
+  PortoDetail   MsPortfolioDtlTech[]
+  DibuatOleh    String
+  WaktuDibuat   DateTime    @default(now())
+  DiubahOleh    String
+  WaktuDiubah   DateTime
+}
+
+model MsPortfolio {
+  Id            Int         @id @default(autoincrement())
+  Nama          String
+  Judul         String
+  Deskripsi     String
+  Kategori      Kategori
+  imageUrl      String
+  url           String
+  TechDetail    MsPortfolioDtlTech[]
+  DibuatOleh    String
+  WaktuDibuat   DateTime    @default(now())
+  DiubahOleh    String
+  WaktuDiubah   DateTime
+}
+
+model MsPortfolioDtlTech {
+  PortoId       Int
+  Porto         MsPortfolio @relation(fields: [PortoId], references: [Id])
+  NoUrut        Int
+  TechId        Int
+  Tech          MsTech      @relation(fields: [TechId], references: [Id])
+  DibuatOleh    String
+  WaktuDibuat   DateTime    @default(now())
+  DiubahOleh    String
+  WaktuDiubah   DateTime
+
+  @@id([PortoId, TechId])
+}
+
+enum Kategori {
+  WEBDEV
+  DESIGN
+}
