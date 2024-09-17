@@ -1,23 +1,24 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import logo from '../assets/logo.svg'
-import { useState } from "react";
+// import logo from '../assets/logo.svg'
+// import { useState } from "react";
 
-export default function Navbar() {
+export default function DashboardNavbar() {
 
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const toggleButton = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
+    // const toggleButton = () => {
+    //     setIsDropdownOpen(!isDropdownOpen);
+    // };
 
     return (
-        <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
+        <nav className="fixed top-0 z-50 w-full bg-purple-700">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <Link href="/dashboard">
                     <div className="flex items-center space-x-3 rtl:space-x-reverse cursor-pointer">
-                        <Image src={logo} alt="Logo" width={50} height={50} />
+                        {/* <Image src={logo} alt="Logo" width={30} height={30} /> */}
+                        <p className="text-white text-2xl font-bold">LilArt</p>
                     </div>
                 </Link>
                 <div className="w-full md:block md:w-auto">
