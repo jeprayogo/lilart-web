@@ -14,7 +14,7 @@ const Header = () => {
     return (
         <div className="container mx-auto px-4">
             <header>
-                <nav className="bg-white border-gray-600 w-full top-0 left-0 z-50">
+                <nav className="bg-gray-300 border-gray-600 w-full top-0 left-0 z-50">
                     <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                         <Link href="/">
                             <div className="flex items-center space-x-3 rtl:space-x-reverse cursor-pointer">
@@ -63,7 +63,7 @@ const Header = () => {
                         <div className="w-full md:block md:w-auto" id="navbar-default">
                             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-gray-900 text-left">
                                 <li>
-                                    
+
                                 </li>
                             </ul>
                         </div>

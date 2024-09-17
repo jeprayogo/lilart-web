@@ -6,17 +6,23 @@ import React, { useState } from 'react';
 
 export default function SignIn() {
     const router = useRouter();
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
+
         const result = await signIn('credentials', {
             email,
             password,
             redirect: false,
         });
+
+        setLoading(false);
+
         if (result?.error) {
             setError(result.error);
         } else {
@@ -50,7 +56,7 @@ export default function SignIn() {
                     />
                 </div>
                 {error && <p className='text-red-500'>{error}</p>}
-                <button type="submit" className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Submit</button>
+                <button type="submit" disabled={loading} className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${loading ? 'opacity-50' : ''}`}>{loading ? 'Loading...' : 'Masuk'}</button>
             </form>
         </div>
     );

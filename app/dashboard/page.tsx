@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import SignOutButton from "../components/SignOutButton";
+import DashboardLayout from "./layout";
 
 export default async function Dashboard() {
     const session = await getServerSession(authOptions);
@@ -9,12 +10,13 @@ export default async function Dashboard() {
     if (!session) {
         redirect("api/auth/signin");
     }
+    const email = session.user?.email ?? "";
 
     return (
-        <div className="mt-10">
-            <h1 className="text-gray-900 text-center mb-4">Selamat Datang Di Dashboard, {session.user?.email}</h1>
-
-            <SignOutButton />
-        </div>
+        <DashboardLayout email={email}>
+            <div className="mt-10">
+                <SignOutButton />
+            </div>
+        </DashboardLayout>
     );
 }
