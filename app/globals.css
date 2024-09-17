@@ -8,5 +8,7 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
   color: #2d2d2d;
+  font-size: 1rem;
+  line-height: 1.5rem;
   scroll-behavior: smooth;
 }
