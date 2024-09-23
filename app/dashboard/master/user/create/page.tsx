@@ -1,8 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import DashboardBreadcrumb from "../../components/DashboardBreadcrumb";
-import UserTable from "@/app/components/UserTable";
+import CreateUserForm from "@/app/components/user/CreateUserForm";
 
 export default async function user() {
     const session = await getServerSession(authOptions);
@@ -14,9 +13,9 @@ export default async function user() {
     return (
         <div>
             <div className="mb-10">
-                <DashboardBreadcrumb />
+                <h1 className="font-bold text-xl mb-5">Tambah User</h1>
+                <CreateUserForm />
             </div>
-            <UserTable />
         </div>
     );
 };

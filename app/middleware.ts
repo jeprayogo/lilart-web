@@ -20,5 +20,8 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/api/protected/*'],
+    matcher: [
+        '/api/user/:path*',
+        '/api/portfolio/:path*',
+    ],
 }
