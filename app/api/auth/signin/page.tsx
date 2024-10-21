@@ -1,5 +1,6 @@
 "use client";
 
+import Alert from '@/app/components/Alert';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -37,9 +38,12 @@ export default function SignIn() {
     };
 
     return (
-        <div className='container'>
+        <div className='flex flex-col justify-center items-center h-screen'>
+            <div className='my-10 top-1 fixed'>
+                {error && <Alert message={error} type='error' />}
+            </div>
             <h1 className='text-gray-900 font-bold text-center mb-5 text-xl'>Sign In</h1>
-            <form onSubmit={handleSubmit} className='max-w-sm mx-auto'>
+            <form onSubmit={handleSubmit} className='max-w-md mx-auto'>
                 <div className='mb-5'>
                     <label htmlFor="email" className='block mb-2 text-sm font-medium text-gray-900'>Email</label>
                     <input
@@ -66,7 +70,7 @@ export default function SignIn() {
                         className='absolute right-2 top-1/2'
                     >{showPassword ? <BiSolidHide size={24} fill='#9333ea' /> : <BiSolidShow size={24} fill='#9333ea' />}</button>
                 </div>
-                {error && <p className='text-red-500'>{error}</p>}
+
                 <button type="submit" disabled={loading} className={`text-white bg-purple-600 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ${loading ? 'opacity-50' : ''}`}>{loading ? 'Please Wait' : 'Masuk'}</button>
             </form>
         </div>

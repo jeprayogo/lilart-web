@@ -6,7 +6,7 @@ import prisma from "@/prisma/prisma";
 import { hash } from "bcryptjs";
 
 //POST
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
 
     const session = await getServerSession(authOptions);
     
@@ -14,10 +14,10 @@ export async function POST(req: NextRequest) {
         redirect("api/auth/signin");
     }
 
-    const body = await  req.json();
-    const {Email, Password, NamaDepan, NamaBelakang, NoHP, DibuatOleh, DiubahOleh} = body;
+    const body = await  request.json();
+    const {UserID, Email, Password, NamaDepan, NamaBelakang, NoHP, DibuatOleh, DiubahOleh} = body;
 
-    if (!Email || !Password || !NamaDepan || !NamaBelakang || !NoHP) {
+    if (!UserID || !Email || !Password || !NamaDepan || !NamaBelakang || !NoHP) {
         return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
     }
 
@@ -33,13 +33,14 @@ export async function POST(req: NextRequest) {
 
     //buat user baru
     try {
-        const userEmail = session.user?.email ?? 'sytem';
+        const userEmail = session.user?.email ?? 'system';
 
         //hash password
         const hashPassword = await hash(Password, 10);
 
         const newUser = await prisma.msUser.create({
             data: {
+                UserID: UserID,
                 Email: Email,
                 Password: hashPassword,
                 NamaDepan: NamaDepan,

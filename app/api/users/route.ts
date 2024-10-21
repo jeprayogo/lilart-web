@@ -1,8 +1,17 @@
+import { getServerSession } from "next-auth";
 import prisma from "@/prisma/prisma";
 import {NextRequest, NextResponse } from "next/server";
-import { Jwt } from "jsonwebtoken";
+import { authOptions } from "../auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 
 export async function GET(req: NextRequest) {
+
+    const session = await getServerSession(authOptions);
+    
+    if (!session) {
+        redirect("api/auth/signin");
+    }
+
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = parseInt(searchParams.get('limit') || '10', 10);
@@ -43,7 +52,7 @@ export async function GET(req: NextRequest) {
         }));
 
         if (!users) {
-            return NextResponse.json({ error: 'User not found' }, { status: 404 });
+            return NextResponse.json({ error: 'User tidak ditemukan' }, { status: 404 });
         }
     
         const totalUser = await prisma.msUser.count();
@@ -55,6 +64,6 @@ export async function GET(req: NextRequest) {
             pageCount: Math.ceil(totalUser / limit),
         });
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
+        return NextResponse.json({ error: 'Gagal fetching data user' }, { status: 500 });
     }
 }

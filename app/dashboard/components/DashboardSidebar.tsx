@@ -4,18 +4,23 @@ import Link from "next/link";
 import Image from 'next/image'
 import { useState } from "react";
 import logo from '../../assets/logo.svg';
-import { IconContext } from "react-icons";
-import { BiSolidDashboard, BiSolidServer, BiPlus, BiMinus, BiChevronRightCircle, BiChevronLeftCircle } from "react-icons/bi";
+import { FaGauge, FaServer, FaPlus, FaMinus } from "react-icons/fa6";
+import SidebarUserDropdown from "./SidebarUserDropdown";
+import { useSession } from "next-auth/react";
 
 
 export default function DashboardSidebar() {
+
+    const { data: session } = useSession();
+
+    const currentUser = session?.user?.name ?? "";
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const iconStyle = { color: "#ffffff", fontSize: "24px", hover: { color: "#581c87" } };
 
     return (
         <>
@@ -26,32 +31,38 @@ export default function DashboardSidebar() {
                     </Link>
                     <ul className="space-y-2 font-medium">
                         <li>
-                            <Link href="/dashboard" className="flex items-center p-2 text-gray-800 rounded-lg   hover:text-gray-600 group">
-                                <BiSolidDashboard style={iconStyle} />
+                            <Link href="/dashboard" className="flex items-center p-2 text-gray-800 rounded-lg hover:text-gray-600 hover:bg-gray-100 group">
+                                <FaGauge />
                                 <span className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap text-gray-800 hover:text-gray-600">Dashboard</span>
                             </Link>
                         </li>
                         <li>
-                            <button type="button" onClick={toggleDropdown} className="flex items-center w-full p-2 text-base text-gray-800 transition ease-in-out delay-150 rounded-lg group hover:text-gray-600" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                            <button type="button" onClick={toggleDropdown} className="flex items-center w-full p-2 text-base text-gray-800 transition ease-in-out delay-150 rounded-lg group hover:text-gray-600 hover:bg-gray-100" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
                                 <div className="flex  items-center w-full text-white hover:text-purple-900">
-                                    <BiSolidServer style={iconStyle} />
+                                    <FaServer />
                                     <p className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap text-gray-800 hover:text-gray-600">Master</p>
-                                    {isDropdownOpen ? <BiMinus style={iconStyle} /> : <BiPlus style={iconStyle} />}
+                                    {isDropdownOpen ? <FaMinus /> : <FaPlus />}
                                 </div>
                             </button>
                             <div className={`transition ease-in-out delay-150 overflow-hidden ${isDropdownOpen ? 'block' : 'hidden'}`}>
                                 <ul id="dropdown-example" className={`py-2 space-y-2`}>
                                     <li>
-                                        <Link href="/dashboard/master/user" className="flex items-center w-full p-2 text-gray-800 transition duration-75 rounded-lg pl-11 group  hover:text-gray-600">User</Link>
+                                        <Link href="/dashboard/master/user" className="flex items-center w-full p-2 text-gray-800 transition duration-75 rounded-lg pl-11 group  hover:text-gray-600 hover:bg-gray-100">User</Link>
                                     </li>
                                     <li>
-                                        <Link href="/dashboard/master/portfolio" className="flex items-center w-full p-2 text-gray-800 transition duration-75 rounded-lg pl-11 group  hover:text-gray-600">Portfolio</Link>
+                                        <Link href="/dashboard/master/portfolio" className="flex items-center w-full p-2 text-gray-800 transition duration-75 rounded-lg pl-11 group  hover:text-gray-600 hover:bg-gray-100">Portfolio</Link>
                                     </li>
                                     <li>
-                                        <Link href="#" className="flex items-center w-full p-2 text-gray-800 transition duration-75 rounded-lg pl-11 group  hover:text-gray-600 ">Technology</Link>
+                                        <Link href="#" className="flex items-center w-full p-2 text-gray-800 transition duration-75 rounded-lg pl-11 group  hover:text-gray-600 hover:bg-gray-100    ">Technology</Link>
                                     </li>
                                 </ul>
                             </div>
+                        </li>
+                        <div className="pt-[0.25px] pb-[0.25px]">
+                            <hr className="h-0.5 rounded-full my-8 bg-gray-700 border-0" />
+                        </div>
+                        <li>
+                            <SidebarUserDropdown name={currentUser} />
                         </li>
                     </ul>
                 </div>

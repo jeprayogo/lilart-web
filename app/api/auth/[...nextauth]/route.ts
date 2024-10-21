@@ -6,7 +6,7 @@ import {prisma} from '@/prisma/prisma'
 import { compare } from 'bcryptjs';
 
 export const authOptions: NextAuthOptions = {
-    adapter: PrismaAdapter(prisma),
+    adapter: PrismaAdapter(prisma) as any,
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -18,11 +18,11 @@ export const authOptions: NextAuthOptions = {
 
                 //fetch user email
                 const user = await prisma.msUser.findUnique({
-                    where: { Email: credentials?.email }
+                    where: { Email: credentials?.email, bAktif: true }
                 });
 
                 if (!user || !credentials) {
-                    throw new Error("User tidak ditemukan atau kredensial tidak valid");
+                    throw new Error("Email tidak ditemukan atau tidak valid");
                 }
 
                 //validate password
@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
                 session.id = token.id;
             }
             return session;
-        },
+        }
     },
     pages: {
         signIn: "auth/signin",
